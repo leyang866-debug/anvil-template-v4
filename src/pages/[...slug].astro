@@ -1,0 +1,87 @@
+---
+/**
+ * Unified route for DEFAULT locale (English, no URL prefix): /[...slug]
+ *
+ * Handles:
+ *   - /bosses                  → list page (slug.length === 1)
+ *   - /bosses/emberfang            → article detail (slug.length > 1)
+ *
+ * Non-default locales (/ja/...) are handled by src/pages/[locale]/[...slug].astro.
+ */
+import ListPage from '~/components/article/ListPage.astro';
+import ArticlePage from '~/components/article/ArticlePage.astro';
+import { CONTENT_TYPES } from '~/config/navigation';
+import { defaultLocale, locales, type Locale } from '~/i18n/routing';
+import { getEntryWithFallback, parseEntryId, type ResolvedEntry } from '~/lib/content';
+import { detailPath, languageAlternates, listPath } from '~/lib/url';
+
+export async function getStaticPaths() {
+  const { getCollection } = await import('astro:content');
+  let all: Awaited<ReturnType<typeof getCollection>> = [];
+  try {
+    all = await getCollection('wiki');
+  } catch {
+    // A newly initialized template has no MDX entries yet.
+  }
+
+  const paths: Array<{ params: { slug: string } }> = [];
+
+  paths.push({ params: { slug: 'guides' } });
+
+  // Guide collection entries use short public keyword URLs.
+  for (const entry of all) {
+    const parsed = parseEntryId(entry.id);
+    if (!parsed || parsed.locale !== defaultLocale) continue;
+    const articleSlug = parsed.slug === '10-update' ? '1.0-update' : parsed.slug;
+    const publicSlug = parsed.category === 'guides' ? articleSlug : `${parsed.category}/${articleSlug}`;
+    paths.push({ params: { slug: publicSlug } });
+  }
+
+  return paths;
+}
+
+interface Props {
+  slug: string;
+}
+
+const slug = Astro.params.slug;
+const parts = (slug ?? '').split('/').filter(Boolean);
+const locale: Locale = defaultLocale;
+
+// Decide what to render based on slug length.
+let view: 'list' | 'article' | 'not-found' = 'not-found';
+let category = '';
+let articleSlug = '';
+let resolved: ResolvedEntry | null = null;
+
+if (parts.length === 1 && parts[0] === 'guides') {
+  category = 'guides';
+  view = 'list';
+} else if (parts.length === 1) {
+  articleSlug = parts[0];
+  category = 'guides';
+  resolved = await getEntryWithFallback(category, articleSlug === '1.0-update' ? '10-update' : articleSlug, locale);
+  view = resolved ? 'article' : 'not-found';
+} else {
+  category = parts[0];
+  articleSlug = parts.slice(1).join('/');
+  if (CONTENT_TYPES.includes(category)) {
+    resolved = await getEntryWithFallback(category, articleSlug === '1.0-update' ? '10-update' : articleSlug, locale);
+    view = resolved ? 'article' : 'not-found';
+  }
+}
+
+if (view === 'not-found') {
+  return new Response('Not Found', { status: 404 });
+}
+
+const alternates = languageAlternates(
+  (loc) => (view === 'list' ? listPath(category, loc) : detailPath(category, articleSlug, loc)),
+  locales,
+);
+---
+
+{view === 'list' && <ListPage locale={locale} category={category} alternates={alternates} />}
+{view === 'article' && resolved && (
+  <ArticlePage locale={locale} resolved={resolved} alternates={alternates} />
+)}
