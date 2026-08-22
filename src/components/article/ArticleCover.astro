@@ -1,0 +1,14 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  class?: string;
+}
+const {
+  src,
+  alt = '',
+  class: className = 'mb-3 aspect-video w-full rounded-md object-cover',
+} = Astro.props;
+---
+
+<img src={src} alt={alt} loading="lazy" decoding="async" class={className} />

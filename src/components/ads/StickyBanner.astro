@@ -1,0 +1,53 @@
+---
+/**
+ * StickyBanner — the sticky mobile banner (AdSense).
+ *
+ * Sticks below the header for maximum visibility. Includes a dismiss button
+ * (persisted in localStorage) so users can close it.
+ *
+ * Gated on PUBLIC_ADSENSE_CLIENT + PUBLIC_ADSENSE_SLOT_STICKY:
+ * either empty = nothing rendered.
+ */
+import { Icon } from 'astro-icon/components';
+import AdSenseSlot from './AdSenseSlot.astro';
+
+const client = import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined;
+const slot = import.meta.env.PUBLIC_ADSENSE_SLOT_STICKY as string | undefined;
+const show = !!(client && slot);
+---
+
+{
+  show && (
+    <div
+      id="sticky-banner"
+      class="sticky top-14 z-30 border-b border-border bg-background/95 py-2 backdrop-blur"
+    >
+      <div class="relative mx-auto max-w-4xl px-4">
+        <AdSenseSlot position="sticky" class="mx-auto" />
+        <button
+          id="dismiss-sticky"
+          type="button"
+          aria-label="Close ad"
+          class="absolute -right-1 -top-1 rounded-full border bg-background p-1 text-muted-foreground transition hover:bg-muted"
+        >
+          <Icon name="lucide:x" class="h-3 w-3" />
+        </button>
+      </div>
+    </div>
+  )
+}
+<script is:inline>
+  (() => {
+    const banner = document.getElementById('sticky-banner');
+    const btn = document.getElementById('dismiss-sticky');
+    if (!banner || !btn) return;
+    if (localStorage.getItem('sticky-dismissed') === '1') {
+      banner.remove();
+      return;
+    }
+    btn.addEventListener('click', () => {
+      localStorage.setItem('sticky-dismissed', '1');
+      banner.remove();
+    });
+  })();
+</script>

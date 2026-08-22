@@ -1,0 +1,44 @@
+---
+import BaseLayout from '~/components/layout/BaseLayout.astro';
+import { articles, articleBySlug, expansion } from '~/data/articles';
+export function getStaticPaths() {
+  return articles.map((article) => ({ params: { slug: article.slug } }));
+}
+const article = articleBySlug.get(Astro.params.slug ?? '');
+if (!article) return Astro.redirect('/404');
+const quickGuides = [
+  ['/beginner-guide', 'Beginner Guide'],
+  ['/characters', 'Survivors'],
+  ['/synergies', 'Builds & Synergies'],
+  ['/weapons', 'Weapons'],
+  ['/items', 'Items'],
+  ['/maps', 'Maps & Boss Rush'],
+  ['/achievements', 'Achievements / Torments'],
+  ['/items', 'Items'],
+];
+---
+<BaseLayout title={article.title} description={article.description} locale="en" article>
+  <header class="border-b border-border bg-black/50 backdrop-blur"><div class="site-shell flex min-h-16 items-center justify-between gap-5"><a href="/" class="display text-sm font-bold tracking-widest text-orange-300">YAZS // SURVIVOR ARCHIVE</a><nav class="hidden gap-4 text-sm md:flex"><a href="/beginner-guide">Guides</a><a href="/characters">Survivors</a><a href="/weapons">Arsenal</a><a href="/maps">Maps</a><a href="/achievements">Completion</a></nav><details class="language-menu"><summary class="data cursor-pointer list-none text-xs tracking-widest text-orange-300">English ▾</summary><div class="language-popover"><a href={`/${article.slug}`}>EN</a><a href={`/ru/${article.slug}`}>RU</a><a href={`/de/${article.slug}`}>DE</a><a href={`/ja/${article.slug}`}>JA</a></div></details></div></header>
+  <main class="site-shell article-layout py-12">
+    <article class="panel article-body p-6 md:p-10">
+      <p class="data mb-4 text-xs tracking-[.2em] text-orange-300">FIELD INTEL // {article.slug.toUpperCase()}</p>
+      <h1 class="display text-3xl font-bold leading-tight text-white md:text-5xl">{article.title}</h1>
+      <p class="mt-6 text-xl leading-8 text-stone-200">{article.intro}</p>
+      {article.sections.map(([heading, body], index) => <section id={`chapter-${index + 1}`} class="article-section mt-10 scroll-mt-24"><h2 class="display border-l-4 border-red-600 pl-4 text-2xl font-semibold text-orange-200">{heading}</h2><p class="mt-4 leading-8 text-stone-200">{body}</p></section>)}
+      <section class="article-section mt-10"><h2 class="display border-l-4 border-red-600 pl-4 text-2xl font-semibold text-orange-200">Practical guidance</h2><p class="mt-4 leading-8 text-stone-300">{expansion(article)}</p></section>
+      <section class="mt-12 border-t border-border pt-7"><h2 class="display text-xl text-orange-200">Continue your run</h2><div class="mt-4 flex flex-wrap gap-3">{article.related.map((href) => <a class="btn-outline border-red-900/60 bg-black/20 hover:border-orange-400" href={href}>{href.slice(1).replaceAll('-', ' ')}</a>)}<a class="btn-primary" href="/">Combat Field Manual home</a></div></section>
+    </article>
+    <aside class="article-nav" aria-label="Article navigation">
+      <div class="nav-frame">
+        <div class="nav-corner nav-corner-tl"></div>
+        <p class="data nav-kicker">THIS CHAPTER</p>
+        <h2 class="display nav-title">At a glance</h2>
+        <nav class="chapter-links">{article.sections.map(([heading], index) => <a href={`#chapter-${index + 1}`}><span class="data">0{index + 1}</span>{heading}</a>)}</nav>
+        <div class="nav-divider"></div>
+        <p class="data nav-kicker">QUICK NAVIGATION</p>
+        <nav class="guide-links">{quickGuides.map(([href, label]) => <a href={href} class={href === `/${article.slug}` ? 'current' : ''}>{label}</a>)}</nav><div class="nav-bottom-corner" aria-hidden="true"></div>
+      </div>
+    </aside>
+  </main>
+  <footer class="site-shell py-8 text-center text-sm text-stone-400">Fan-made combat guide template. Replace this footer for your game.</footer>
+</BaseLayout>

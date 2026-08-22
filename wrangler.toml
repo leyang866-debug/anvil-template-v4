@@ -1,0 +1,11 @@
+# Cloudflare Worker static-assets deployment.
+# GitHub Actions deploys dist/ with `wrangler deploy --assets dist`.
+
+name = "yet-another-zombie-survivors"
+compatibility_date = "2026-08-11"
+
+[assets]
+directory = "dist"
+
+[vars]
+SITE_URL = "https://example-game.invalid"

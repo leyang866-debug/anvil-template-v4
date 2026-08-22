@@ -1,0 +1,195 @@
+# MDX 文章格式
+
+> 怎么写一篇 AnvilWiki 的 MDX 文章。文章是 wiki 的核心——文件路径即 URL。
+
+---
+
+## 文件位置与 URL 映射
+
+文章放在 `src/content/wiki/<locale>/<category>/<slug>.mdx`：
+
+```
+src/content/wiki/en/bosses/emberfang.mdx           → /bosses/emberfang
+src/content/wiki/en/guides/beginner-guide.mdx  → /guides/beginner-guide
+src/content/wiki/ja/bosses/emberfang.mdx           → /ja/bosses/emberfang（日文版）
+```
+
+> `category` 必须与 `src/config/navigation.ts` 的 `key` 一致。
+
+---
+
+## Frontmatter（YAML 头部）
+
+每篇文章用 YAML frontmatter 声明元数据。**构建时会用 Zod schema 校验**——字段缺失或类型错误会导致 build 失败。
+
+```mdx
+---
+title: 'Emberfang Boss Guide - Complete Strategy'
+description: 'Complete strategy guide for defeating Emberfang, including attack patterns and weaknesses.'
+category: 'bosses'
+date: 2026-08-11
+lastModified: 2026-08-12
+image: '../../../../assets/covers/emberfang-cover.png'
+tags: ['boss', 'ice', 'early-game']
+noindex: false
+---
+```
+
+### 字段说明
+
+| 字段           | 类型     | 必填 | 校验规则                             | 用途                                     |
+| -------------- | -------- | ---- | ------------------------------------ | ---------------------------------------- |
+| `title`        | string   | ✅   | ≤ 80 字符                            | SEO title + H1（正文不写 H1）            |
+| `description`  | string   | ✅   | 40-165 字符                          | meta description + 文章副标题            |
+| `category`     | string   | ✅   | 必须在 `navigation.ts` 的 key 列表里 | 决定 URL 路径和列表页归属                |
+| `date`         | date     | ✅   | ISO 格式（YYYY-MM-DD）               | 发布日期 + Article JSON-LD datePublished |
+| `lastModified` | date     | 可选 | ISO 格式                             | 最后修改日期（JSON-LD dateModified）     |
+| `image`        | string   | 可选 | 相对 MDX 文件的路径（走 Astro Image） | 封面图（og:image，缺省用 hero）          |
+| `tags`         | string[] | 可选 | 默认 `[]`                            | 用于"相关文章"推荐                       |
+| `noindex`      | boolean  | 可选 | 默认 `false`                         | 设为 `true` 禁止搜索引擎索引此页         |
+
+### 校验失败示例
+
+```mdx
+---
+title: 'Guide' # ❌ 太短（虽然 ≥1 字符就过，但 SEO 不好）
+description: 'Short' # ❌ 少于 40 字符，build 失败
+category: 'unknown' # ❌ 不在 navigation.ts，路由 404
+date: '上周二' # ❌ 不是 ISO 格式，Zod 解析失败
+---
+```
+
+---
+
+## 正文规则
+
+### 从 H2 开始，不写 H1
+
+```mdx
+---
+title: 'Emberfang Boss Guide'
+---
+
+## Boss Overview ← ✅ 第一个标题是 H2
+
+...
+```
+
+**不要写 H1**——`ArticlePage` 组件自动用 frontmatter 的 `title` 渲染 H1。如果你也写 H1，会导致双 H1，影响 SEO。
+
+### 支持的 Markdown 语法
+
+- 标题（H2-H4，建议不跳级）
+- 列表（有序/无序）
+- 表格（GitHub Flavored Markdown）
+- 代码块（```语法高亮）
+- 引用（`>`）
+- 链接（相对路径用 `/bosses/emberfang`，绝对路径用完整 URL）
+- 图片（`![alt](/images/xxx.jpg)`，正文图片放 `public/images/`）
+  - ⚠️ 封面图（frontmatter `image` 字段）不同：走 Astro Image 优化（自动 WebP/srcset），放在 `src/assets/covers/`，写相对 MDX 文件的路径。详见上面的 frontmatter 示例。
+
+### MDX 扩展（可选）
+
+MDX 支持 JSX 组件，但 AnvilWiki 默认不引入 React 组件。如果你需要复杂交互，参考 [PRD §ADR-002](./PRD.md#adr-002为什么用纯-astro-原生组件而不是-react-islands) 的说明。
+
+---
+
+## 从其他格式迁移文章
+
+如果你手上的文章用的是 JS 元数据写法（常见于 Next.js / MDX 项目）：
+
+```mdx
+export const metadata = {
+  title: "文章标题",
+  description: "描述",
+  category: "bosses",
+  date: "2026-08-01",
+  tags: ["guide"]
+};
+
+## 正文从 H2 开始
+...
+```
+
+AnvilWiki 用 YAML frontmatter，需要手动改成：
+
+```mdx
+---
+title: "文章标题"
+description: "描述"
+category: "bosses"
+date: 2026-08-01
+tags: ["guide"]
+---
+
+## 正文从 H2 开始
+...
+```
+
+**迁移步骤**：
+1. 删除 `export const metadata = { ... };` 整块（连同末尾分号和空行）
+2. 在文件最顶部加 `---` 包裹的 YAML frontmatter，字段一一对应
+3. YAML 里字符串值用双引号包裹，数组用 `[...]` 语法，日期不加引号
+4. 其余正文内容不变
+5. 运行 `pnpm build` 验证 frontmatter 通过 Zod schema 校验
+
+> 批量迁移时，可以用 AI 编辑器（Cursor / Claude Code）的正则替换功能，或写一个简单的 Node 脚本完成转换。模板不内置转换脚本——frontmatter 字段少、格式简单，手动或 AI 辅助转换即可。
+
+---
+
+## 多语言文章
+
+每种语言一个目录：
+
+```
+src/content/wiki/
+├── en/bosses/emberfang.mdx     → /bosses/emberfang
+└── ja/bosses/emberfang.mdx     → /ja/bosses/emberfang
+```
+
+### Fallback 行为
+
+| 场景                                         | 行为                                                         |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| 访问 `/ja/bosses/emberfang` 且**有日文版**       | 显示日文                                                     |
+| 访问 `/ja/bosses/emberfang` 但**无日文版**       | **自动回退英文**（不 404），页面显示 "English fallback" 标记 |
+| 访问 `/ja/bosses/`（列表页）且**无日文文章** | 显示空状态（**不回退英文**）                                 |
+
+> 这种不对称是设计决策：详情页保证 URL 可达（不 404），列表页保证准确性（不展示没有的内容）。
+
+---
+
+## 文件命名规范
+
+slug（文件名）= URL 最后一段：
+
+```
+src/content/wiki/en/bosses/emberfang-boss-guide.mdx → /bosses/emberfang-boss-guide
+```
+
+**规则**：
+
+- 全小写
+- 单词用连字符分隔（`emberfang-boss-guide`，不是 `EmberfangBossGuide` 或 `emberfang_boss_guide`）
+- 不含特殊字符（`?:/`)
+- 建议：与目标关键词一致（SEO）
+
+---
+
+## 新建文章脚手架
+
+```bash
+pnpm new-post
+# 交互式输入：locale / category / slug / title
+# 自动生成带 frontmatter 的 MDX 模板
+```
+
+> 已实现（`scripts/new-post.ts`）。运行 `pnpm new-post` 交互式生成。
+
+---
+
+## 下一步
+
+- [套用模板指南](./apply-template.md)
+- [SEO 说明](./seo.md)
+- 回到 [README](../README.md)

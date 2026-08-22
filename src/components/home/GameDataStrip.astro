@@ -1,0 +1,33 @@
+---
+import { Icon } from 'astro-icon/components';
+
+type GameStat = {
+  label: string;
+  value: string;
+  icon: string;
+};
+
+interface Props {
+  stats: GameStat[];
+}
+
+const { stats } = Astro.props;
+---
+
+<section class="border-b border-border bg-card/70" aria-label="Game facts">
+  <div class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-border px-4 sm:grid-cols-4 sm:divide-y-0">
+    {
+      stats.map((stat) => (
+        <div class="flex min-h-20 items-center gap-3 px-4 py-4 first:pl-0 sm:px-5">
+          <Icon name={stat.icon} class="h-5 w-5 shrink-0 text-nav" />
+          <div class="min-w-0">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {stat.label}
+            </p>
+            <p class="mt-1 text-sm font-semibold text-card-foreground">{stat.value}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

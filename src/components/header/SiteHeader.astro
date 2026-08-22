@@ -1,0 +1,114 @@
+---
+/**
+ * Site header — logo, primary nav, theme toggle, language switcher.
+ * Mobile menu uses native <details> (zero JS).
+ */
+import { Icon } from 'astro-icon/components';
+import { NAVIGATION_CONFIG } from '~/config/navigation';
+import { site } from '~/config/site';
+import { type Locale, defaultLocale, locales, LOCALE_LABELS } from '~/i18n/routing';
+import { getUi } from '~/i18n/ui';
+import { localizePath } from '~/lib/url';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import SearchButton from './SearchButton.astro';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+const { locale, currentPath } = Astro.props;
+const ui = getUi(locale);
+const nav: Record<string, string> = ui.nav as Record<string, string>;
+
+const samePagePathFor = (loc: Locale) => {
+  // Strip existing locale prefix, then prepend the new one.
+  const stripped = currentPath.replace(/^\/(?:ru|de|ja)(\/|$)/, '/') || '/';
+  return localizePath(stripped, loc);
+};
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
+    {/* Logo */}
+    <a
+      href={localizePath('/', locale)}
+      class="flex items-center gap-2 font-bold text-foreground"
+      aria-label={site.name}
+    >
+      <img src="/android-chrome-192x192.png" alt="" class="h-7 w-7 rounded object-cover" />
+      <span class="hidden sm:inline">{site.shortName}</span>
+    </a>
+
+    {/* Desktop nav */}
+    <nav class="hidden flex-1 items-center gap-1 md:flex">
+      {
+        NAVIGATION_CONFIG.map((item) => {
+          const path = localizePath(item.path, locale);
+          const isActive = currentPath === path || currentPath.startsWith(path + '/');
+          return (
+            <a
+              href={path}
+              class:list={[
+                'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                isActive
+                  ? 'bg-muted text-nav'
+                  : 'text-foreground/70 hover:bg-muted hover:text-foreground',
+              ]}
+            >
+              {nav[item.key] ?? item.key}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    {/* Right actions */}
+    <div class="ml-auto flex items-center gap-1">
+      <SearchButton locale={locale} />
+      <ThemeToggle />
+      <LanguageSwitcher locale={locale} pathFor={samePagePathFor} />
+
+      {/* Mobile menu */}
+      <details class="relative md:hidden">
+        <summary
+          class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-foreground transition hover:bg-muted"
+        >
+          <Icon name="lucide:menu" class="h-5 w-5" />
+        </summary>
+        <div class="absolute right-0 mt-2 w-48 overflow-hidden rounded-md border bg-card shadow-lg">
+          {
+            NAVIGATION_CONFIG.map((item) => (
+              <a
+                href={localizePath(item.path, locale)}
+                class="block px-3 py-2 text-sm transition hover:bg-muted"
+              >
+                {nav[item.key] ?? item.key}
+              </a>
+            ))
+          }
+          {/* Language switcher for mobile — flat list, not nested dropdown */}
+          <div class="border-t border-border pt-1">
+            <div class="flex items-center gap-1 px-3 pb-1 text-xs text-muted-foreground">
+              <Icon name="lucide:globe" class="h-3 w-3" />
+              <span>{nav.language ?? 'Language'}</span>
+            </div>
+            {
+              locales.map((loc) => (
+                <a
+                  href={samePagePathFor(loc)}
+                  class:list={[
+                    'block px-3 py-2 text-sm transition hover:bg-muted',
+                    loc === locale && 'font-semibold text-nav',
+                  ]}
+                >
+                  {LOCALE_LABELS[loc]}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
