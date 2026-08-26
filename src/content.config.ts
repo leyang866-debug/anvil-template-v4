@@ -23,7 +23,7 @@ const wiki = defineCollection({
   schema: () =>
     z.object({
       title: z.string().max(60),
-      description: z.string().min(140).max(160),
+      description: z.string().min(1).max(160),
       category: z.string(),
       date: z.coerce.date(),
       lastModified: z.coerce.date().optional(),
