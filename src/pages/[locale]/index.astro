@@ -4,11 +4,12 @@ import { locales, defaultLocale, isLocale } from '~/i18n/routing';
 export function getStaticPaths() { return locales.filter((locale) => locale !== defaultLocale).map((locale) => ({ params: { locale } })); }
 const locale = Astro.params.locale ?? '';
 if (!isLocale(locale) || locale === defaultLocale) return Astro.redirect('/');
+const local = (path: string) => `/${locale}${path}`;
 const title = 'Game Guide Wiki — Builds, Characters and Secrets';
 const description = 'A reusable game guide homepage with beginner routes, builds, characters, maps, secrets and completion tracking.';
 const startCards = [
-  { href: '/beginner-guide', label: '01 / FIRST RUN', title: 'Beginner Guide', text: 'Build one reliable weapon, recruit your squad, and survive the first horde.', image: '/images/hero.jpg' },
-  { href: '/synergies', label: '02 / SQUAD LAB', title: 'Builds & Synergies', text: 'Turn Bulwark, Incinerator, Tactician and Phantom into a squad with a real job.', image: '/images/hero.jpg' },
+  { href: local('/beginner-guide'), label: '01 / FIRST RUN', title: 'Beginner Guide', text: 'Learn the first repeatable route, upgrade rule and recovery plan.', image: '/images/hero.jpg' },
+  { href: local('/synergies'), label: '02 / BUILD LAB', title: 'Builds & Synergies', text: 'Combine roles, upgrades and passives into a build with a clear job.', image: '/images/hero.jpg' },
   { href: '/potato', label: '03 / SECRET ITEM', title: 'Special Item Guide', text: 'Explain a distinctive item, secret trigger or collectible route.', image: '/images/hero.jpg' },
   { href: '/characters', label: '04 / SURVIVOR ROSTER', title: 'Characters', text: 'Compare all nine Survivors, their weapons, roles and unlock routes.', image: '/images/hero.jpg' },
 ];

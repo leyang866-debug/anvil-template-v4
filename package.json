@@ -29,7 +29,7 @@
   "packageManager": "pnpm@11.1.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/check-domain.mjs",
+    "prebuild": "node scripts/check-domain.mjs && node scripts/check-template-clean.mjs",
     "build": "pnpm prebuild && astro build",
     "postbuild": "pagefind --site dist && node scripts/check-internal-links.mjs",
     "preview": "astro preview",
