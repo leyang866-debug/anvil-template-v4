@@ -48,32 +48,37 @@ const ui = getUi(locale);
 const shared = ui.shared as Record<string, string>;
 const heading = shared.commentsHeading ?? 'Comments';
 ---
-{enabled && (
-  <section class="mt-12 border-t border-border pt-8">
-    <h2 class="text-xl font-bold">{heading}</h2>
-    <div class="giscus mt-4" />
 
-    {/* Giscus widget — client.js forwards data-loading=lazy to the iframe */}
-    <script
-      src="https://giscus.app/client.js"
-      data-repo={repo}
-      data-repo-id={repoId}
-      data-category={category}
-      data-category-id={categoryId}
-      data-mapping={mapping}
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="light"
-      data-lang={lang}
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async
-    />
+{
+  enabled && (
+    <section class="mt-12 border-t border-border pt-8">
+      <h2 class="text-xl font-bold">{heading}</h2>
+      <div class="giscus mt-4" />
 
-    {/* Dark mode sync — vanilla JS, is:inline so Astro doesn't bundle/delay it */}
-    <script is:inline set:html={`(() => {
+      {/* Giscus widget — client.js forwards data-loading=lazy to the iframe */}
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+        data-mapping={mapping}
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang={lang}
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+
+      {/* Dark mode sync — vanilla JS, is:inline so Astro doesn't bundle/delay it */}
+      <script
+        is:inline
+        set:html={`(() => {
   function syncTheme() {
     var theme = document.documentElement.classList.contains('dark') ? 'dark_dimmed' : 'light';
     var iframe = document.querySelector('iframe.giscus-frame');
@@ -100,6 +105,8 @@ const heading = shared.commentsHeading ?? 'Comments';
     }
     syncTheme();
   });
-})();`} />
-  </section>
-)}
+})();`}
+      />
+    </section>
+  )
+}

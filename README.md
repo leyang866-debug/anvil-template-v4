@@ -1,11 +1,11 @@
-# Anvil Template v2
+# Anvil Template v4
 
 A multilingual Astro game-wiki template extracted from a production game wiki. It retains the reusable production work: dark-theme token structure, responsive guide-card layouts, the game-data strip, practical CTA routing, SEO and i18n routes, and the `/sitemap.xml` compatibility index.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/leyang866-debug/anvil-template-v2.git new-project-name
+git clone https://github.com/leyang866-debug/anvil-template-v4.git new-project-name
 cd new-project-name
 pnpm install
 pnpm dev
@@ -21,7 +21,7 @@ Change these five places before publishing:
 2. `src/styles/globals.css` — the full visual palette.
 3. `src/config/navigation.ts` — navigation labels, routes, and icons.
 4. `src/content/wiki/en/` — English MDX guides.
-5. `src/locales/` — translate the homepage and core guides for `vi`, `de`, `fr`, and `es`.
+5. `src/locales/` — translate the homepage and core guides for `ru`, `de`, and `ja`.
 
 ## Theme variables
 
@@ -35,8 +35,8 @@ Keep readable contrast in both theme modes after changing these values.
 
 ## Content and assets
 
-- Put the primary hero/OG image in `public/header.jpg`.
-- Put supporting screenshots in `public/screenshot-N.jpg`.
+- Replace `public/images/hero-placeholder.svg` with the primary hero/OG image for the new game.
+- Put supporting screenshots in `public/images/`.
 - Replace favicon and app icons by copying your branded assets from `logo/` into `public/`.
 - Put a YouTube identifier in `videos/youtube_id.txt` only if you add a trailer section to the homepage.
 - Write MDX articles under `src/content/wiki/en/`; retain empty locale directories for translated entries.

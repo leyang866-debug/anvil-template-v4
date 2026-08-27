@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Neutral game guide placeholder">
+  <rect width="1920" height="1080" fill="#101214"/>
+  <path d="M0 880 320 540l240 160 310-430 280 300 260-250 510 560v200H0Z" fill="#282b2f"/>
+  <path d="M0 990 420 690l210 170 350-360 250 220 280-260 410 390v230H0Z" fill="#571d1b" opacity=".8"/>
+  <path d="M1050 0h870v1080h-620l-250-380 260-190-190-250 340-260Z" fill="#1b1e21" opacity=".88"/>
+  <g stroke="#d55a24" stroke-width="3" opacity=".42">
+    <path d="M1220 60 1520 360M1300 0l430 430M1510 70l330 330M1170 540l390 390"/>
+  </g>
+</svg>
