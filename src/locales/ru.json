@@ -1,1 +1,57 @@
-{"site":{"name":"Zombie Combat Field Manual","shortName":"Combat Wiki","description":"Reusable zombie combat guide template.","tagline":"Survive the horde. Build the run.","legalNotice":"Fan-made community resource."},"nav":{"home":"Home","guides":"Guides","language":"Language","menu":"Menu","close":"Close","search":"Search","toggleTheme":"Theme"},"search":{"placeholder":"Search guides","noResults":"No guides found","clear":"Clear search","close":"Close search"},"overview":{"title":"Guide overview","description":"Practical combat modules"},"shared":{"readMore":"Open guide","relatedArticles":"Related guides","onThisPage":"On this page","viewAll":"View all"},"home":{"meta":{"title":"Zombie Combat Field Manual","description":"Reusable survivor-like zombie combat wiki template."},"hero":{"badge":"Combat wiki template","title":"Survive the Horde","description":"A reusable foundation for characters, weapons, maps, builds and completion guides.","ctaPrimary":"Start guide","ctaSecondary":"Browse modules"}},"footer":{"privacyPolicy":"Privacy","termsOfService":"Terms","copyrightText":"Community template"},"css":{"search":"Search","close":"Close"},"js":{"search":"Search"}}
+{
+  "site": {
+    "name": "Zombie Combat Field Manual",
+    "shortName": "Combat Wiki",
+    "description": "Многоязычный шаблон руководства по игре про борьбу с ордами.",
+    "tagline": "Переживите орду. Соберите идеальный забег.",
+    "legalNotice": "Фанатский ресурс сообщества."
+  },
+  "nav": {
+    "home": "Главная",
+    "guides": "Руководства",
+    "language": "Язык",
+    "menu": "Меню",
+    "close": "Закрыть",
+    "search": "Поиск",
+    "toggleTheme": "Тема"
+  },
+  "search": {
+    "placeholder": "Искать руководства",
+    "noResults": "Руководства не найдены",
+    "clear": "Очистить поиск",
+    "close": "Закрыть поиск"
+  },
+  "overview": { "title": "Обзор руководств", "description": "Практические боевые разделы" },
+  "shared": {
+    "readMore": "Открыть руководство",
+    "relatedArticles": "Похожие руководства",
+    "onThisPage": "На этой странице",
+    "viewAll": "Смотреть все",
+    "browseAll": "Все руководства",
+    "noArticles": "В этом разделе пока нет материалов",
+    "lastUpdated": "Обновлено",
+    "publishedOn": "Опубликовано"
+  },
+  "home": {
+    "meta": {
+      "title": "Zombie Combat Field Manual",
+      "description": "Многоязычный шаблон вики с руководствами по игре про выживание."
+    },
+    "hero": {
+      "badge": "Шаблон игровой вики",
+      "title": "Переживите орду",
+      "description": "Готовая основа для руководств по персонажам, оружию, картам, сборкам и завершению игры.",
+      "ctaPrimary": "Открыть руководство",
+      "ctaPrimaryHref": "/beginner-guide",
+      "ctaSecondary": "Другие руководства",
+      "ctaSecondaryHref": "/guides"
+    }
+  },
+  "footer": {
+    "privacyPolicy": "Конфиденциальность",
+    "termsOfService": "Условия",
+    "copyrightText": "Шаблон сообщества"
+  },
+  "css": { "search": "Поиск", "close": "Закрыть" },
+  "js": { "search": "Поиск" }
+}

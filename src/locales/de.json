@@ -1,1 +1,57 @@
-{"site":{"name":"Zombie Combat Field Manual","shortName":"Combat Wiki","description":"Reusable zombie combat guide template.","tagline":"Survive the horde. Build the run.","legalNotice":"Fan-made community resource."},"nav":{"home":"Home","guides":"Guides","language":"Language","menu":"Menu","close":"Close","search":"Search","toggleTheme":"Theme"},"search":{"placeholder":"Search guides","noResults":"No guides found","clear":"Clear search","close":"Close search"},"overview":{"title":"Guide overview","description":"Practical combat modules"},"shared":{"readMore":"Open guide","relatedArticles":"Related guides","onThisPage":"On this page","viewAll":"View all"},"home":{"meta":{"title":"Zombie Combat Field Manual","description":"Reusable survivor-like zombie combat wiki template."},"hero":{"badge":"Combat wiki template","title":"Survive the Horde","description":"A reusable foundation for characters, weapons, maps, builds and completion guides.","ctaPrimary":"Start guide","ctaSecondary":"Browse modules"}},"footer":{"privacyPolicy":"Privacy","termsOfService":"Terms","copyrightText":"Community template"},"css":{"search":"Search","close":"Close"},"js":{"search":"Search"}}
+{
+  "site": {
+    "name": "Zombie Combat Field Manual",
+    "shortName": "Combat Wiki",
+    "description": "Mehrsprachige Vorlage für Spielguides rund um den Kampf gegen Horden.",
+    "tagline": "Überlebe die Horde. Baue deinen Run.",
+    "legalNotice": "Fanprojekt der Community."
+  },
+  "nav": {
+    "home": "Startseite",
+    "guides": "Guides",
+    "language": "Sprache",
+    "menu": "Menü",
+    "close": "Schließen",
+    "search": "Suchen",
+    "toggleTheme": "Design"
+  },
+  "search": {
+    "placeholder": "Guides durchsuchen",
+    "noResults": "Keine Guides gefunden",
+    "clear": "Suche leeren",
+    "close": "Suche schließen"
+  },
+  "overview": { "title": "Guide-Übersicht", "description": "Praktische Kampfmodule" },
+  "shared": {
+    "readMore": "Guide öffnen",
+    "relatedArticles": "Ähnliche Guides",
+    "onThisPage": "Auf dieser Seite",
+    "viewAll": "Alle anzeigen",
+    "browseAll": "Alle Guides",
+    "noArticles": "In diesem Bereich gibt es noch keine Artikel",
+    "lastUpdated": "Aktualisiert",
+    "publishedOn": "Veröffentlicht"
+  },
+  "home": {
+    "meta": {
+      "title": "Zombie Combat Field Manual",
+      "description": "Mehrsprachige Wiki-Vorlage für Survivor-ähnliche Zombie-Spiele."
+    },
+    "hero": {
+      "badge": "Vorlage für eine Spielwiki",
+      "title": "Überlebe die Horde",
+      "description": "Eine fertige Grundlage für Guides zu Charakteren, Waffen, Karten, Builds und Fortschritt.",
+      "ctaPrimary": "Einsteiger-Guide",
+      "ctaPrimaryHref": "/beginner-guide",
+      "ctaSecondary": "Weitere Guides",
+      "ctaSecondaryHref": "/guides"
+    }
+  },
+  "footer": {
+    "privacyPolicy": "Datenschutz",
+    "termsOfService": "Nutzungsbedingungen",
+    "copyrightText": "Community-Vorlage"
+  },
+  "css": { "search": "Suchen", "close": "Schließen" },
+  "js": { "search": "Suchen" }
+}

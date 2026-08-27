@@ -1,1 +1,57 @@
-{"site":{"name":"Zombie Combat Field Manual","shortName":"Combat Wiki","description":"Reusable zombie combat guide template.","tagline":"Survive the horde. Build the run.","legalNotice":"Fan-made community resource."},"nav":{"home":"Home","guides":"Guides","language":"Language","menu":"Menu","close":"Close","search":"Search","toggleTheme":"Theme"},"search":{"placeholder":"Search guides","noResults":"No guides found","clear":"Clear search","close":"Close search"},"overview":{"title":"Guide overview","description":"Practical combat modules"},"shared":{"readMore":"Open guide","relatedArticles":"Related guides","onThisPage":"On this page","viewAll":"View all"},"home":{"meta":{"title":"Zombie Combat Field Manual","description":"Reusable survivor-like zombie combat wiki template."},"hero":{"badge":"Combat wiki template","title":"Survive the Horde","description":"A reusable foundation for characters, weapons, maps, builds and completion guides.","ctaPrimary":"Start guide","ctaSecondary":"Browse modules"}},"footer":{"privacyPolicy":"Privacy","termsOfService":"Terms","copyrightText":"Community template"},"css":{"search":"Search","close":"Close"},"js":{"search":"Search"}}
+{
+  "site": {
+    "name": "Zombie Combat Field Manual",
+    "shortName": "Combat Wiki",
+    "description": "大群との戦いを攻略する多言語ゲームガイドテンプレート。",
+    "tagline": "群れを生き延び、最高のビルドを作ろう。",
+    "legalNotice": "コミュニティによるファンサイトです。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "guides": "攻略ガイド",
+    "language": "言語",
+    "menu": "メニュー",
+    "close": "閉じる",
+    "search": "検索",
+    "toggleTheme": "テーマ"
+  },
+  "search": {
+    "placeholder": "攻略を検索",
+    "noResults": "ガイドが見つかりません",
+    "clear": "検索をクリア",
+    "close": "検索を閉じる"
+  },
+  "overview": { "title": "ガイド一覧", "description": "実践的な攻略モジュール" },
+  "shared": {
+    "readMore": "ガイドを開く",
+    "relatedArticles": "関連記事",
+    "onThisPage": "このページの内容",
+    "viewAll": "すべて見る",
+    "browseAll": "すべてのガイド",
+    "noArticles": "このセクションにはまだ記事がありません",
+    "lastUpdated": "更新日",
+    "publishedOn": "公開日"
+  },
+  "home": {
+    "meta": {
+      "title": "Zombie Combat Field Manual",
+      "description": "サバイバー系ゾンビゲーム向けの多言語攻略Wikiテンプレート。"
+    },
+    "hero": {
+      "badge": "ゲーム攻略Wikiテンプレート",
+      "title": "群れを生き延びろ",
+      "description": "キャラクター、武器、マップ、ビルド、コンプリート攻略をまとめるための土台です。",
+      "ctaPrimary": "初心者ガイドを見る",
+      "ctaPrimaryHref": "/beginner-guide",
+      "ctaSecondary": "他の攻略を見る",
+      "ctaSecondaryHref": "/guides"
+    }
+  },
+  "footer": {
+    "privacyPolicy": "プライバシー",
+    "termsOfService": "利用規約",
+    "copyrightText": "コミュニティテンプレート"
+  },
+  "css": { "search": "検索", "close": "閉じる" },
+  "js": { "search": "検索" }
+}
