@@ -67,7 +67,11 @@ function hexToHsl(hex: string): { h: number; s: number; l: number } {
     process.exit(1);
   }
   let h = m[1];
-  if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+  if (h.length === 3)
+    h = h
+      .split('')
+      .map((c) => c + c)
+      .join('');
   const r = parseInt(h.slice(0, 2), 16) / 255;
   const g = parseInt(h.slice(2, 4), 16) / 255;
   const b = parseInt(h.slice(4, 6), 16) / 255;
@@ -129,7 +133,11 @@ async function ask(rl: readline.Interface, question: string, fallback?: string):
   return answer || (fallback ?? '');
 }
 
-async function askBool(rl: readline.Interface, question: string, fallback = false): Promise<boolean> {
+async function askBool(
+  rl: readline.Interface,
+  question: string,
+  fallback = false,
+): Promise<boolean> {
   const answer = (await rl.question(`${question} [${fallback ? 'Y/n' : 'y/N'}]: `))
     .trim()
     .toLowerCase();
@@ -256,9 +264,7 @@ function rewriteRoutingTs(input: SkinInput): string {
     fr: 'Français',
     de: 'Deutsch',
   };
-  const labels = input.locales
-    .map((l) => `  ${l}: '${KNOWN[l] ?? l}'`)
-    .join(',\n');
+  const labels = input.locales.map((l) => `  ${l}: '${KNOWN[l] ?? l}'`).join(',\n');
   const newLabels = `export const LOCALE_LABELS: Record<Locale, string> = {\n${labels},\n};`;
   const localesRe = /export const locales = \[[\s\S]*?\] as const;/;
   const labelsRe = /export const LOCALE_LABELS: Record<Locale, string> = \{[\s\S]*?\};/;
@@ -279,9 +285,7 @@ function rewriteUiTs(input: SkinInput): string {
   //   (b) the `const messages = { ... }` map entries
   // The `import { defaultLocale, ... } from './routing'` line sits between them
   // and must NOT be touched.
-  const imports = input.locales
-    .map((l) => `import ${l} from '~/locales/${l}.json';`)
-    .join('\n');
+  const imports = input.locales.map((l) => `import ${l} from '~/locales/${l}.json';`).join('\n');
   const messagesEntries = input.locales
     .map((l) => `  ${l}: ${l} as Record<string, unknown>,`)
     .join('\n');
@@ -301,7 +305,7 @@ function rewriteUiTs(input: SkinInput): string {
   return updated;
 }
 
-function rewriteLocaleJson(input: SkinInput, locale: string, existing?: string): string {
+function rewriteLocaleJson(input: SkinInput, _locale: string, existing?: string): string {
   // Start from existing (if any) or a minimal skeleton; reset site/footer/nav/overview.
   let obj: Record<string, unknown> = {};
   if (existing) {
@@ -320,7 +324,8 @@ function rewriteLocaleJson(input: SkinInput, locale: string, existing?: string):
     legalNotice: input.legalNotice,
   };
   obj.footer = obj.footer ?? {};
-  (obj.footer as Record<string, unknown>).copyrightText = `© ${new Date().getFullYear()} ${input.gameName} Wiki. All rights reserved.`;
+  (obj.footer as Record<string, unknown>).copyrightText =
+    `© ${new Date().getFullYear()} ${input.gameName} Wiki. All rights reserved.`;
   // Clear nav + overview so the user re-fills them once categories are known.
   obj.nav = {};
   obj.overview = {};
@@ -411,7 +416,13 @@ async function main() {
   console.log('Game identity');
   console.log('━'.repeat(60));
   const gameName = await ask(rl, 'Full game name', 'Anvil Quest');
-  const shortNameDefault = gameName.split(' ').map((w) => w[0]).join('').slice(0, 4).toUpperCase() + ' Wiki';
+  const shortNameDefault =
+    gameName
+      .split(' ')
+      .map((w) => w[0])
+      .join('')
+      .slice(0, 4)
+      .toUpperCase() + ' Wiki';
   const shortName = await ask(rl, 'Short name (PWA / mobile)', shortNameDefault);
   const domain = await ask(rl, 'Domain (no protocol)', 'anvilwiki.pages.dev');
   const tagline = await ask(rl, 'Hero tagline', `Your home for everything ${gameName}`);
@@ -582,9 +593,7 @@ async function main() {
 
   for (const locale of uniqueLocales) {
     const localePath = `src/locales/${locale}.json`;
-    const existing = fs.existsSync(path.resolve(ROOT, localePath))
-      ? read(localePath)
-      : undefined;
+    const existing = fs.existsSync(path.resolve(ROOT, localePath)) ? read(localePath) : undefined;
     write(localePath, rewriteLocaleJson(skinInput, locale, existing));
     if (!DRY_RUN) {
       // Ensure content dir exists for this locale.
@@ -604,7 +613,9 @@ async function main() {
   if (skinInput.clearLanding) {
     const n = removeLandingPage();
     if (n > 0) {
-      console.log(`   🗑️  Removed ${n} project landing page file${n === 1 ? '' : 's'} (src/components/landing/, src/config/landing.ts, src/pages/landing.astro)`);
+      console.log(
+        `   🗑️  Removed ${n} project landing page file${n === 1 ? '' : 's'} (src/components/landing/, src/config/landing.ts, src/pages/landing.astro)`,
+      );
     }
   }
 

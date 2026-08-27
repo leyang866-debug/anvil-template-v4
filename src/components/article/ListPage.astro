@@ -26,7 +26,7 @@ const ui = getUi(locale);
 const nav = ui.nav as Record<string, string>;
 const shared = ui.shared as Record<string, string>;
 const overview = (
-  ui.overview as Record<string, { overviewTitle: string; overviewDescription: string }>
+  ui.overview as unknown as Record<string, { overviewTitle: string; overviewDescription: string }>
 )[category];
 const navItem = NAVIGATION_CONFIG.find((n) => n.key === category);
 

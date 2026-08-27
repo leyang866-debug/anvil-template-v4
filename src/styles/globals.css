@@ -48,7 +48,7 @@
       'rlig' 1,
       'calt' 1;
     font-family: var(--font-body);
-    background-image: linear-gradient(rgba(12, 14, 17, .84), rgba(12, 14, 17, .96)), url('/images/hero.jpg');
+    background-image: linear-gradient(rgba(12, 14, 17, .84), rgba(12, 14, 17, .96)), url('/images/hero-placeholder.svg');
     background-attachment: fixed;
     background-size: cover;
   }

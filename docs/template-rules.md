@@ -22,4 +22,4 @@ This fork is the cleaned seed for new game wiki sites.
 5. Add images under `public/images/` and reference them from frontmatter.
 6. Run `pnpm build` before deployment.
 
-The default `example.com` domain intentionally fails the prebuild check so a new site cannot publish an incorrect sitemap.
+The default `example-game.invalid` domain is a placeholder. Replace it before deployment so generated sitemap URLs use the real site origin.
